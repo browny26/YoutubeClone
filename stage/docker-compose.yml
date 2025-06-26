@@ -1,0 +1,32 @@
+services:
+  db:
+    container_name: postgres-spring-boot
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: luisa
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+#    ports:
+#      - "5332:5432"
+#    networks:
+#      - db
+    restart: unless-stopped
+
+  app:
+    container_name: app-spring-boot
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile
+    ports:
+      - "8080:8080"
+#    networks:
+#      - db
+    restart: no
+
+#networks:
+#  db:
+#    driver: bridge
+volumes:
+  db:
